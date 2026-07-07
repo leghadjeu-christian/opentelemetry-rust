@@ -20,7 +20,7 @@ vendor- and tool-agnostic, meaning that it can be used with a broad variety of
 Observability backends, including open source tools like [Jaeger] and
 [Prometheus], as well as commercial offerings.
 
-OpenTelemetry is *not* an observability backend like Jaeger, Prometheus, or other
+OpenTelemetry is *not* an observability backend like Jaeger, Prometheus, or o
 commercial vendors. OpenTelemetry is focused on the generation, collection,
 management, and export of telemetry. A major goal of OpenTelemetry is that you
 can easily instrument your applications or systems, no matter their language,
