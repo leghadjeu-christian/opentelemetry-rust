@@ -2,6 +2,21 @@
 
 ## vNext
 
+- Added SDK self-observability metrics, feature-gated behind
+  `experimental_metrics_bound_instruments`: `otel.sdk.log.created` counts log
+  records submitted to the SDK; `otel.sdk.processor.log.processed` and
+  `otel.sdk.processor.span.processed` count records and spans submitted to an
+  exporter by batch and simple processors, with `error.type` reporting items
+  dropped before submission; and `otel.sdk.processor.log.queue.capacity`
+  reports the configured `BatchLogProcessor` queue capacity.
+  ([#3514](https://github.com/open-telemetry/opentelemetry-rust/pull/3514),
+  [#3608](https://github.com/open-telemetry/opentelemetry-rust/pull/3608),
+  [#3609](https://github.com/open-telemetry/opentelemetry-rust/pull/3609),
+  [#3611](https://github.com/open-telemetry/opentelemetry-rust/pull/3611))
+- Made `futures-channel`, `futures-executor`, `futures-util`, and `thiserror`
+  optional, enabling a minimal SDK build. With `default-features = false`, the
+  SDK's only dependency is the `opentelemetry` API crate.
+  ([#3593](https://github.com/open-telemetry/opentelemetry-rust/pull/3593))
 - Bound instruments are now available for `Gauge` and `UpDownCounter` via the
   new `BoundGauge<T>` and `BoundUpDownCounter<T>` types exposed by the
   `opentelemetry` crate. Requires the `experimental_metrics_bound_instruments`
@@ -16,13 +31,6 @@
   Miri instead of calling `std::env::current_exe()`, avoiding an abort in Miri
   isolation mode while preserving the normal
   `unknown_service:<process.executable.name>` fallback outside Miri.
-- Added SDK self-observability metric `otel.sdk.processor.log.processed` for
-  `BatchLogProcessor` (feature-gated behind
-  `experimental_metrics_bound_instruments`). The metric counts processed log
-  records and includes `error.type` dimensions for outcomes like
-  `queue_full` and `already_shutdown`, enabling operators to distinguish
-  successful processing from drops due to full queue or post-shutdown emits.
-  ([#3514](https://github.com/open-telemetry/opentelemetry-rust/pull/3514))
 - Fixed asynchronous counters (`ObservableCounter`, `ObservableUpDownCounter`)
   using delta temporality reporting incorrect deltas when observed attributes
   were recorded in an unsorted key order.
